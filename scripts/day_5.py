@@ -27,6 +27,25 @@ def main():
 
     print(len(valid_ids))
 
+    # part 2
+
+    # first check which ranges are overlapping and merge them
+    merged_ranges = []
+    valid_id_ranges.sort()
+    current_start, current_end = valid_id_ranges[0]
+    for start, end in valid_id_ranges[1:]:
+        if start <= current_end + 1:
+            current_end = max(current_end, end)
+        else:
+            merged_ranges.append((current_start, current_end))
+            current_start, current_end = start, end
+
+
+    # find number of valid ids
+    num_valid = sum(end - start + 1 for start, end in merged_ranges)
+    print(num_valid)
+
+
 if __name__ == "__main__":
     main()
 
