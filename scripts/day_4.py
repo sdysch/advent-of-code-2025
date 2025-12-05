@@ -1,18 +1,19 @@
+# offsets for neighbours
+NEIGHBOURS = [
+    (-1, -1),
+    (-1, 0),
+    (-1, 1),
+    (0, -1),
+    (0, 1),
+    (1, -1),
+    (1, 0), 
+    (1, 1)
+]
+
 def count_accessible(grid):
     h = len(grid)
     w = len(grid[0])
 
-    # offsets for neighbours
-    neighbours = [
-        (-1, -1),
-        (-1, 0),
-        (-1, 1),
-        (0, -1),
-        (0, 1),
-        (1, -1),
-        (1, 0), 
-        (1, 1)
-    ]
 
     accessible = []
 
@@ -22,7 +23,7 @@ def count_accessible(grid):
                 continue
 
             count = 0
-            for dy, dx in neighbours:
+            for dy, dx in NEIGHBOURS:
                 ny, nx = y + dy, x + dx
                 if 0 <= ny < h and 0 <= nx < w:
                     if grid[ny][nx] == '@':
@@ -44,6 +45,21 @@ def main():
     grid = [list(row) for row in lines]
     result = count_accessible(grid)
     print(len(result))
+
+    # part 2
+    # remove accessible positions until none are left
+    num_removed = 0
+    while True:
+        accessible = count_accessible(grid)
+        if not accessible:
+            break
+
+        for x, y in accessible:
+            grid[y][x] = '.'
+
+        num_removed += len(accessible)
+
+    print(num_removed)
 
 
 if __name__ == "__main__":
